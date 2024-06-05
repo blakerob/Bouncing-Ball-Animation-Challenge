@@ -1,0 +1,71 @@
+<script>
+    // U92725213
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bouncing Ball Challenge</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+  <script>
+    // Canvas setup 
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Ball constructor
+    class Ball {
+      constructor(x, y, radius, dx, dy, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.dx = dx;
+        this.dy = dy;
+        this.color = color;
+      }
+
+      // Draw function for Ball
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      // Update function for Ball
+      update() {
+        // Check collision with canvas sides
+        if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+          this.dx = -this.dx; // Reverse direction on collision
+        }
+
+        if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
+          this.dy = -this.dy; // Reverse direction on collision
+        }
+
+        // Update position
+        this.x += this.dx;
+        this.y += this.dy;
+      }
+    }
+
+    // SetInterval for animation
+    const ball = new Ball(200, 160, 20, 2, 2, "red");
+    setInterval(function () {
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw and update ball
+      ball.draw();
+      ball.update();
+    }, 20); // Adjust the interval for smooth animation
+  </script>
+</body>
+</html>
